@@ -1,16 +1,13 @@
 class Phrase
-  attr_reader :phrase
 
   def initialize(phrase)
-    @phrase = phrase
+    @words = phrase.downcase.scan(/\b[\w']+\b/)
   end
-
   def word_count
-    phrase.downcase.scan(/\b[\w']+\b/).each_with_object(Hash.new(0)) do |word, word_count_hash|
-      word_count_hash[word] += 1
-    end
+    @words.group_by(&:itself).transform_values(&:count)
   end
 end
+
 
 module BookKeeping
   VERSION = 1
